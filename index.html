@@ -358,5 +358,22 @@ function markDone(id,undo){
 
 boot();
 </script>
+<a id="momBtn" href="parent/" style="display:none;position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:9999;background:rgba(255,255,255,.95);color:#4c1d95;font:900 16px Nunito,system-ui,sans-serif;padding:13px 22px;border-radius:999px;text-decoration:none;box-shadow:0 8px 22px rgba(40,10,90,.3)">👩‍🏫 Mom</a>
+<script>
+(function () {
+  var b = document.getElementById('momBtn');
+  function onSignIn() {
+    var els = document.querySelectorAll('body *');
+    for (var i = 0; i < els.length; i++) {
+      var e = els[i];
+      if (e.children.length === 0 && /Tap your name/i.test(e.textContent) && e.offsetParent !== null) return true;
+    }
+    return false;
+  }
+  function check() { b.style.display = onSignIn() ? 'block' : 'none'; }
+  check();
+  setInterval(check, 800);
+})();
+</script>
 </body>
 </html>
