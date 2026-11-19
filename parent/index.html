@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4c1d95">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Crutcher Parent">
+<title>Crutcher Academy · Parent Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1f1637;--soft:#6b6385;--line:#ece8f6;--bg:#f6f3fc;--card:#fff;--brand:#6d28d9;--brand2:#4c1d95;--ok:#16a34a;--okbg:#e9f9ef;--warn:#d97706;--warnbg:#fff4e0;--bad:#dc2626;--badbg:#fdecec;--faith:#db2777;--faithbg:#fde7f2;--josiah:#2563eb;--josiahbg:#e6eefe}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+.hidden{display:none!important}
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(160deg,#4c1d95,#7c3aed 60%,#a78bfa)}
+.lcard{width:100%;max-width:380px;background:#fff;border-radius:28px;padding:30px 24px;box-shadow:0 24px 60px rgba(30,10,70,.35);text-align:center}
+.lcard h1{margin:6px 0 2px;font-size:26px;font-weight:900}
+.lcard p{margin:0 0 20px;color:var(--soft);font-weight:700}
+.logo{font-size:44px}
+.field{width:100%;border:2px solid var(--line);border-radius:16px;padding:15px 16px;font-size:18px;font-weight:700;background:#faf8ff;outline:none}
+.field:focus{border-color:var(--brand)}
+.btn{border:0;border-radius:16px;padding:15px 18px;font-size:17px;font-weight:900;background:var(--brand);color:#fff;width:100%;cursor:pointer}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:#efe9fd;color:var(--brand2)}
+.btn.ok{background:var(--ok)}
+.btn.sm{width:auto;padding:10px 14px;font-size:14px;border-radius:12px}
+.err{color:var(--bad);font-weight:800;min-height:22px;margin-top:12px;font-size:15px}
+header{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,#4c1d95,#6d28d9);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 16px 12px;box-shadow:0 6px 18px rgba(40,10,90,.25)}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.htitle{font-weight:900;font-size:20px;line-height:1.1}
+.hsub{font-weight:700;opacity:.85;font-size:13px;margin-top:2px}
+.icon{background:rgba(255,255,255,.16);border:0;color:#fff;width:42px;height:42px;border-radius:14px;font-size:19px;cursor:pointer;flex:none}
+.chips{display:flex;gap:8px;margin-top:12px}
+.chip{flex:1;border:0;border-radius:999px;padding:9px 6px;font-weight:900;font-size:14px;background:rgba(255,255,255,.16);color:#fff;cursor:pointer}
+.chip.on{background:#fff;color:var(--brand2)}
+main{padding:14px 14px calc(96px + env(safe-area-inset-bottom));max-width:720px;margin:0 auto}
+.sec{font-size:13px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);margin:18px 4px 8px}
+.card{background:var(--card);border-radius:22px;padding:16px;margin-bottom:12px;box-shadow:0 2px 0 var(--line),0 8px 24px rgba(60,30,120,.06)}
+.kidhead{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.av{width:46px;height:46px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;flex:none}
+.av.Faith{background:var(--faithbg)}.av.Josiah{background:var(--josiahbg)}
+.kname{font-weight:900;font-size:20px}
+.ksub{font-weight:700;color:var(--soft);font-size:14px}
+.big{font-size:40px;font-weight:900;line-height:1}
+.ring{margin-left:auto;text-align:right}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:#faf8ff;border-radius:18px;padding:14px;border:2px solid var(--line)}
+.tile .n{font-size:32px;font-weight:900;line-height:1.05}
+.tile .l{font-size:12px;font-weight:900;color:var(--soft);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+.item{display:flex;align-items:center;gap:12px;padding:12px 4px;border-top:1px solid var(--line);cursor:pointer}
+.item:first-of-type{border-top:0}
+.dot{width:14px;height:14px;border-radius:50%;flex:none;background:#d6d0e6}
+.dot.done{background:var(--ok)}.dot.work{background:var(--warn)}.dot.help{background:var(--bad)}
+.it{flex:1;min-width:0}
+.it .c{font-weight:900;font-size:15px}
+.it .t{font-weight:700;color:var(--soft);font-size:14px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pill{font-size:12px;font-weight:900;padding:5px 9px;border-radius:999px;white-space:nowrap;background:#f1eef9;color:var(--soft)}
+.pill.ok{background:var(--okbg);color:var(--ok)}.pill.warn{background:var(--warnbg);color:var(--warn)}.pill.bad{background:var(--badbg);color:var(--bad)}
+.pill.Faith{background:var(--faithbg);color:var(--faith)}.pill.Josiah{background:var(--josiahbg);color:var(--josiah)}
+.more{width:100%;border:0;background:#faf8ff;border-radius:14px;padding:12px;font-weight:900;color:var(--brand2);margin-top:8px;cursor:pointer}
+.empty{text-align:center;padding:26px 10px;color:var(--soft);font-weight:800}
+.empty .e{font-size:40px}
+label.lb{display:block;font-weight:900;font-size:14px;margin:14px 2px 6px}
+.seg{display:flex;gap:8px}
+.seg button{flex:1;border:2px solid var(--line);background:#faf8ff;border-radius:14px;padding:12px;font-weight:900;cursor:pointer}
+.seg button.on{border-color:var(--brand);background:#efe9fd;color:var(--brand2)}
+textarea.field{min-height:84px;resize:vertical;font-size:16px}
+select.field,input.field{font-size:16px}
+.quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.quick button{border:2px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;font-weight:900;cursor:pointer}
+.quick button.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.score{display:flex;align-items:center;gap:10px}
+.score input{width:110px;text-align:center;font-size:24px;font-weight:900}
+.score span{font-weight:900;font-size:20px;color:var(--soft)}
+.letter{margin-left:auto;font-size:34px;font-weight:900;width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:#efe9fd;color:var(--brand2)}
+.exit{background:#faf8ff;border-radius:14px;padding:12px;margin-top:10px;font-weight:700;font-size:14px}
+.exit b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--soft)}
+.qa{font-weight:700;font-size:15px;margin-top:8px}
+.qa b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--soft)}
+.bars{display:flex;align-items:flex-end;gap:8px;height:150px;padding-top:10px;position:relative}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.bar .b{width:100%;border-radius:10px 10px 6px 6px;background:linear-gradient(180deg,#a78bfa,#6d28d9);min-height:4px}
+.bar .b.hit{background:linear-gradient(180deg,#4ade80,#16a34a)}
+.bar .v{font-size:11px;font-weight:900;color:var(--soft);margin-bottom:4px}
+.bar .d{font-size:12px;font-weight:900;color:var(--soft);margin-top:6px}
+.goal{position:absolute;left:0;right:0;border-top:2px dashed #f59e0b}
+.goal span{position:absolute;right:0;top:-18px;font-size:11px;font-weight:900;color:#b45309;background:#fff;padding:0 4px}
+.hbar{margin:10px 0}
+.hbar .top{display:flex;justify-content:space-between;font-weight:900;font-size:14px;margin-bottom:6px}
+.hbar .track{height:14px;border-radius:999px;background:#f1eef9;overflow:hidden}
+.hbar .fill{height:100%;border-radius:999px}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:9px 2px;border-top:1px solid var(--line);font-weight:700;font-size:14px}
+.kv:first-child{border-top:0}
+.kv span:first-child{color:var(--soft)}
+.kv span:last-child{font-weight:900;text-align:right}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#fff;display:flex;justify-content:space-around;padding:8px 6px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(60,30,120,.1);border-radius:22px 22px 0 0}
+nav button{flex:1;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:900;font-size:11px;color:var(--soft);padding:6px 0;border-radius:14px;position:relative;cursor:pointer}
+nav button .i{font-size:22px;line-height:1}
+nav button.on{color:var(--brand2);background:#f3eefe}
+.badge{position:absolute;top:0;right:calc(50% - 22px);background:var(--bad);color:#fff;border-radius:999px;font-size:11px;min-width:19px;height:19px;display:flex;align-items:center;justify-content:center;padding:0 5px}
+#sheet{position:fixed;inset:0;z-index:50;background:rgba(20,10,40,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:#fff;width:100%;max-width:560px;border-radius:26px 26px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));max-height:88vh;overflow:auto}
+.sheet h3{margin:4px 0 4px;font-size:19px;font-weight:900}
+.sheet .sub{color:var(--soft);font-weight:700;margin-bottom:14px}
+.sheet .btn{margin-top:10px}
+#toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#1f1637;color:#fff;font-weight:900;padding:12px 18px;border-radius:14px;z-index:60;max-width:90%;text-align:center}
+#busy{position:fixed;inset:0;z-index:70;background:rgba(255,255,255,.55);display:flex;align-items:center;justify-content:center}
+.spin{width:48px;height:48px;border-radius:50%;border:5px solid #e4dcfa;border-top-color:var(--brand);animation:s 0.8s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+a.lnk{color:var(--brand);font-weight:900;text-decoration:none}
+@media (min-width:640px){.tiles{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div id="login">
+  <div class="lcard">
+    <div class="logo">🏫</div>
+    <h1>Crutcher Academy</h1>
+    <p>Parent Portal</p>
+    <input id="pw" class="field" type="password" placeholder="Your password" autocomplete="current-password">
+    <div style="height:12px"></div>
+    <button class="btn" id="go">Sign in</button>
+    <div class="err" id="lerr"></div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <header>
+    <div class="hrow">
+      <div>
+        <div class="htitle" id="htitle">Today</div>
+        <div class="hsub" id="hsub"></div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="icon" id="refresh" aria-label="Refresh">⟳</button>
+        <button class="icon" id="out" aria-label="Sign out">⎋</button>
+      </div>
+    </div>
+    <div class="chips" id="chips"></div>
+  </header>
+  <main id="main"></main>
+  <nav id="nav"></nav>
+</div>
+
+<div id="sheet" class="hidden"><div class="sheet" id="sheetBody"></div></div>
+<div id="toast" class="hidden"></div>
+<div id="busy" class="hidden"><div class="spin"></div></div>
+
+<script>
+var API = 'https://script.google.com/macros/s/AKfycbwRT7tVfDlkOHAHWm5GJ-60mwZPJ1lRFWvduL1zn4U0lJT4lPMKn6VfU5-S0lKX-o1l/exec';
+var KEY = 'ca_parent_token';
+var S = { token: '', data: null, view: 'today', kid: 'all', showOver: {} };
+var VIEWS = [
+  { id: 'today', i: '📋', l: 'Today', t: 'Today' },
+  { id: 'assign', i: '➕', l: 'Assign', t: 'Assign Work' },
+  { id: 'grade', i: '✏️', l: 'Grade', t: 'Grade' },
+  { id: 'help', i: '🆘', l: 'Help', t: 'Help Requests' },
+  { id: 'well', i: '💪', l: 'Wellness', t: 'Wellness' },
+  { id: 'prog', i: '📈', l: 'Progress', t: 'Progress' }
+];
+var EMO = { Faith: '👩‍🎓', Josiah: '👨‍🎓' };
+
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function store(k, v) { try { if (v === undefined) return localStorage.getItem(k) || ''; if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { return ''; } }
+function busy(on) { $('busy').classList.toggle('hidden', !on); }
+function toast(m) { var t = $('toast'); t.textContent = m; t.classList.remove('hidden'); clearTimeout(toast.h); toast.h = setTimeout(function () { t.classList.add('hidden'); }, 2600); }
+
+function call(fn, args) {
+  return fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ fn: fn, args: args || [] }) })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (d.ok) return d.result;
+      if (/SIGNED_OUT/.test(d.error)) { signOut(true); throw new Error('Please sign in again.'); }
+      throw new Error(d.error || 'Something went wrong.');
+    });
+}
+
+function act(fn, args, msg) {
+  busy(true);
+  return call(fn, [S.token].concat(args || [])).then(function (data) {
+    S.data = data; busy(false); closeSheet(); render(); if (msg) toast(msg);
+  }).catch(function (e) { busy(false); toast(e.message); });
+}
+
+function doLogin() {
+  var pw = $('pw').value;
+  if (!pw) { $('lerr').textContent = 'Type your password.'; return; }
+  $('lerr').textContent = '';
+  busy(true);
+  call('PP_login', [pw]).then(function (r) {
+    busy(false); S.token = r.token; S.data = r.data; store(KEY, r.token); $('pw').value = ''; showApp();
+  }).catch(function (e) { busy(false); $('lerr').textContent = e.message; });
+}
+
+function signOut(quiet) {
+  S.token = ''; S.data = null; store(KEY, null);
+  $('app').classList.add('hidden'); $('login').classList.remove('hidden');
+  if (!quiet) toast('Signed out');
+}
+
+function load(quiet) {
+  if (!quiet) busy(true);
+  return call('PP_data', [S.token]).then(function (d) { S.data = d; busy(false); render(); })
+    .catch(function (e) { busy(false); if (S.token) toast(e.message); });
+}
+
+function showApp() { $('login').classList.add('hidden'); $('app').classList.remove('hidden'); render(); }
+
+function kids() { var k = S.data ? S.data.kids : []; return S.kid === 'all' ? k : k.filter(function (x) { return x.first === S.kid; }); }
+function forKid(list, key) { return S.kid === 'all' ? list : list.filter(function (x) { return x[key || 'student'] === S.kid; }); }
+
+function render() {
+  if (!S.data) return;
+  var v = VIEWS.filter(function (x) { return x.id === S.view; })[0];
+  $('htitle').textContent = v.t;
+  $('hsub').textContent = S.data.today + ' · ' + S.data.year;
+  var showChips = S.view !== 'assign';
+  $('chips').classList.toggle('hidden', !showChips);
+  $('chips').innerHTML = [['all', 'Both']].concat(S.data.kids.map(function (k) { return [k.first, EMO[k.first] + ' ' + k.first]; }))
+    .map(function (c) { return '<button class="chip' + (S.kid === c[0] ? ' on' : '') + '" data-kid="' + c[0] + '">' + c[1] + '</button>'; }).join('');
+  var counts = { grade: S.data.queue.length, help: S.data.help.length };
+  $('nav').innerHTML = VIEWS.map(function (x) {
+    return '<button class="' + (x.id === S.view ? 'on' : '') + '" data-view="' + x.id + '"><span class="i">' + x.i + '</span>' + x.l + (counts[x.id] ? '<span class="badge">' + counts[x.id] + '</span>' : '') + '</button>';
+  }).join('');
+  $('main').innerHTML = ({ today: vToday, assign: vAssign, grade: vGrade, help: vHelp, well: vWell, prog: vProg })[S.view]();
+  if (S.view === 'assign') initAssign();
+  window.scrollTo(0, 0);
+}
+
+function statusDot(s) { return /Done/.test(s) ? 'done' : /Working/.test(s) ? 'work' : /Help/.test(s) ? 'help' : ''; }
+function statusPill(it) {
+  if (/Graded/.test(it.grading)) return '<span class="pill ok">Graded</span>';
+  if (/Done/.test(it.status)) return '<span class="pill ok">Done</span>';
+  if (/Working/.test(it.status)) return '<span class="pill warn">Working</span>';
+  if (/Help/.test(it.status)) return '<span class="pill bad">Needs help</span>';
+  return '<span class="pill">Not started</span>';
+}
+function itemRow(it, kid, showDate) {
+  return '<div class="item" data-item="' + esc(it.id) + '" data-kidname="' + esc(kid) + '"><span class="dot ' + statusDot(it.status) + '"></span><div class="it"><div class="c">' + esc(it.course) + (showDate ? ' · ' + esc(it.date) : '') + '</div><div class="t">' + esc(it.title) + '</div></div>' + statusPill(it) + '</div>';
+}
+
+function vToday() {
+  var h = '';
+  kids().forEach(function (k) {
+    var done = k.today.filter(function (x) { return x.done; }).length;
+    h += '<div class="card"><div class="kidhead"><div class="av ' + k.first + '">' + EMO[k.first] + '</div><div><div class="kname">' + esc(k.first) + '</div><div class="ksub">' + (k.today.length ? 'Today\'s work' : 'Nothing assigned today') + '</div></div><div class="ring"><div class="big">' + done + '<span style="font-size:20px;color:var(--soft)">/' + k.today.length + '</span></div><div class="ksub">done</div></div></div>';
+    h += k.today.length ? k.today.map(function (it) { return itemRow(it, k.first); }).join('') : '<div class="empty"><div class="e">🌤️</div>No work today</div>';
+    h += '</div>';
+    if (k.overdueCount) {
+      var open = S.showOver[k.first];
+      h += '<div class="card"><div class="kidhead" style="margin-bottom:0"><div class="av ' + k.first + '">⏰</div><div><div class="kname" style="font-size:17px">' + k.overdueCount + ' past assignments</div><div class="ksub">' + esc(k.first) + ' hasn\'t marked these done</div></div></div>';
+      if (open) h += '<div style="margin-top:8px">' + k.overdue.map(function (it) { return itemRow(it, k.first, true); }).join('') + '</div>' + (k.overdueCount > k.overdue.length ? '<div class="ksub" style="text-align:center;margin-top:8px">Showing the newest ' + k.overdue.length + '</div>' : '');
+      h += '<button class="more" data-over="' + k.first + '">' + (open ? 'Hide' : 'Show them') + '</button></div>';
+    }
+  });
+  return h;
+}
+
+function findItem(id, kidName) {
+  var k = S.data.kids.filter(function (x) { return x.first === kidName; })[0];
+  if (!k) return null;
+  return k.today.concat(k.overdue).filter(function (x) { return x.id === id; })[0];
+}
+
+function openItem(id, kidName) {
+  var it = findItem(id, kidName); if (!it) return;
+  var h = '<h3>' + esc(it.course) + '</h3><div class="sub">' + esc(kidName) + ' · ' + esc(it.date) + '</div><div style="font-weight:800;margin-bottom:6px">' + esc(it.title) + '</div>';
+  if (it.link && /^https?:/i.test(it.link)) h += '<a class="lnk" href="' + esc(it.link) + '" target="_blank" rel="noopener">Open the lesson ↗</a>';
+  h += '<div style="margin-top:6px">' + statusPill(it) + '</div>';
+  if (!it.done) h += '<button class="btn ok" data-do="done" data-id="' + esc(it.id) + '">✅ Mark done</button>';
+  else h += '<button class="btn ghost" data-do="reopen" data-id="' + esc(it.id) + '">↩️ Mark not done</button>';
+  h += '<button class="btn ghost" data-do="remove" data-id="' + esc(it.id) + '" style="color:var(--bad)">🗑️ Remove this assignment</button>';
+  h += '<button class="btn ghost" data-close="1">Close</button>';
+  openSheet(h);
+}
+
+function vAssign() {
+  var today = S.data.todayKey;
+  return '<div class="card">' +
+    '<label class="lb">Who</label><div class="seg" id="aWho">' + S.data.kids.map(function (k) { return '<button data-who="' + esc(k.name) + '"' + (S.kid === k.first || S.kid === 'all' ? ' class="on"' : '') + '>' + EMO[k.first] + ' ' + esc(k.first) + '</button>'; }).join('') + '</div>' +
+    '<label class="lb">Course</label><select class="field" id="aCourse"></select>' +
+    '<input class="field hidden" id="aCourseOther" placeholder="Course name" style="margin-top:8px">' +
+    '<label class="lb">Assignment / lesson</label><textarea class="field" id="aTitle" placeholder="Example: Lesson 42 — Ratios practice"></textarea>' +
+    '<label class="lb">Date</label><input class="field" type="date" id="aDate" value="' + today + '">' +
+    '<div class="quick" id="aDays"></div>' +
+    '<label class="lb">Type</label><div class="seg" id="aType"><button class="on" data-type="Online">💻 Online</button><button data-type="Offline">📒 Offline</button></div>' +
+    '<label class="lb">Link (optional)</label><input class="field" id="aLink" type="url" placeholder="https://">' +
+    '<label class="lb">Notes (optional)</label><input class="field" id="aNotes" placeholder="Anything they should know">' +
+    '<div style="height:14px"></div><button class="btn" id="aSave">Assign it</button></div>';
+}
+
+function initAssign() {
+  var days = [];
+  var base = new Date(S.data.todayKey + 'T12:00:00');
+  for (var i = 0; i < 5; i++) { var d = new Date(base.getTime() + i * 864e5); days.push(d); }
+  $('aDays').innerHTML = days.map(function (d, i) {
+    var key = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    var lbl = i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : d.toLocaleDateString(undefined, { weekday: 'short', month: 'numeric', day: 'numeric' });
+    return '<button data-day="' + key + '"' + (i === 0 ? ' class="on"' : '') + '>' + lbl + '</button>';
+  }).join('');
+  fillCourses();
+}
+
+function selectedWho() { return [].slice.call(document.querySelectorAll('#aWho button.on')).map(function (b) { return b.getAttribute('data-who'); }); }
+
+function fillCourses() {
+  var who = selectedWho();
+  var seen = {}; var list = [];
+  S.data.courses.forEach(function (c) { if (who.indexOf(c.student) >= 0 && !seen[c.course]) { seen[c.course] = 1; list.push(c); } });
+  list.sort(function (a, b) { return a.course.localeCompare(b.course); });
+  var cur = $('aCourse').value;
+  $('aCourse').innerHTML = '<option value="">Pick a course…</option>' + list.map(function (c) { return '<option' + (c.course === cur ? ' selected' : '') + '>' + esc(c.course) + '</option>'; }).join('') + '<option value="__other">Something else…</option>';
+}
+
+function saveAssign() {
+  var course = $('aCourse').value === '__other' ? $('aCourseOther').value.trim() : $('aCourse').value;
+  var typeBtn = document.querySelector('#aType button.on');
+  var f = { students: selectedWho(), course: course, title: $('aTitle').value.trim(), date: $('aDate').value, type: typeBtn ? typeBtn.getAttribute('data-type') : 'Online', link: $('aLink').value.trim(), notes: $('aNotes').value.trim() };
+  if (!f.students.length) return toast('Pick Faith, Josiah or both.');
+  if (!f.course) return toast('Pick a course.');
+  if (!f.title) return toast('Type what the assignment is.');
+  if (!f.date) return toast('Pick a date.');
+  var names = f.students.map(function (n) { return n.split(' ')[0]; }).join(' & ');
+  act('PP_assign', [f], 'Assigned to ' + names + ' ✅');
+}
+
+function letterOf(p) { return p >= 90 ? 'A' : p >= 80 ? 'B' : p >= 70 ? 'C' : p >= 60 ? 'D' : 'F'; }
+
+function vGrade() {
+  var q = forKid(S.data.queue);
+  if (!q.length) return '<div class="card"><div class="empty"><div class="e">🎉</div>Nothing waiting to be graded</div></div>';
+  return '<div class="sec">' + q.length + ' waiting · tap one to grade</div>' + q.map(function (x, i) {
+    return '<div class="card item" style="border-top:0;padding:14px" data-g="' + i + '"><div class="av ' + esc(x.student) + '" style="width:40px;height:40px;font-size:20px;border-radius:13px">' + (EMO[x.student] || '📝') + '</div><div class="it"><div class="c">' + esc(x.course) + '</div><div class="t">' + esc(x.assignment) + '</div></div><div style="text-align:right"><span class="pill ' + esc(x.student) + '">' + esc(x.student) + '</span><div class="ksub" style="margin-top:4px">' + esc(x.date) + '</div></div></div>';
+  }).join('');
+}
+
+function openGrade(i) {
+  var x = forKid(S.data.queue)[i]; if (!x) return;
+  var h = '<h3>' + esc(x.course) + '</h3><div class="sub">' + esc(x.student) + ' · ' + esc(x.date) + '</div><div style="font-weight:800">' + esc(x.assignment) + '</div>';
+  if (x.exit) h += '<div class="exit"><b>Exit ticket</b>' + (x.exit.learned ? '📘 ' + esc(x.exit.learned) + '<br>' : '') + (x.exit.hard ? '🤔 ' + esc(x.exit.hard) + '<br>' : '') + (x.exit.rating ? '⭐ ' + esc(x.exit.rating) + ' / 5' : '') + '</div>';
+  h += '<label class="lb">Score</label><div class="score"><input class="field" id="gE" type="number" inputmode="decimal" placeholder="—"><span>/</span><input class="field" id="gP" type="number" inputmode="decimal" value="100" style="width:90px;font-size:18px"><div class="letter" id="gL">–</div></div>';
+  h += '<div class="quick" id="gQ">' + [100, 95, 90, 85, 80, 75, 70, 60].map(function (n) { return '<button data-q="' + n + '">' + n + '</button>'; }).join('') + '</div>';
+  h += '<label class="lb">Feedback (optional)</label><textarea class="field" id="gF" placeholder="Great job! / Redo #4"></textarea>';
+  h += '<button class="btn ok" id="gSave" data-i="' + i + '">Save grade</button><button class="btn ghost" data-close="1">Cancel</button>';
+  openSheet(h);
+  var upd = function () { var e = Number($('gE').value), p = Number($('gP').value) || 100; $('gL').textContent = $('gE').value === '' ? '–' : letterOf(e / p * 100); };
+  $('gE').addEventListener('input', upd); $('gP').addEventListener('input', upd);
+  setTimeout(function () { $('gE').focus(); }, 250);
+}
+
+function saveGrade(i) {
+  var x = forKid(S.data.queue)[i];
+  var e = $('gE').value;
+  if (e === '') return toast('Type the points earned.');
+  act('PP_grade', [{ row: x.row, id: x.id, earned: Number(e), possible: Number($('gP').value) || 100, feedback: $('gF').value.trim() }], 'Graded ✅');
+}
+
+function vHelp() {
+  var list = forKid(S.data.help);
+  if (!list.length) return '<div class="card"><div class="empty"><div class="e">😊</div>No open help requests</div></div>';
+  return list.map(function (x) {
+    var cls = /Stuck/i.test(x.urgency) ? 'bad' : /Today/i.test(x.urgency) ? 'warn' : '';
+    return '<div class="card"><div class="kidhead" style="margin-bottom:6px"><div class="av ' + esc(x.student) + '">' + (EMO[x.student] || '🆘') + '</div><div style="flex:1"><div class="kname" style="font-size:17px">' + esc(x.student) + ' · ' + esc(x.course) + '</div><div class="ksub">' + esc(x.when) + '</div></div><span class="pill ' + cls + '">' + esc(x.urgency || 'Normal') + '</span></div>' +
+      (x.assignment ? '<div class="qa"><b>Assignment</b>' + esc(x.assignment) + '</div>' : '') +
+      '<div class="qa"><b>Needs help with</b>' + esc(x.need) + '</div>' +
+      (x.tried ? '<div class="qa"><b>Already tried</b>' + esc(x.tried) + '</div>' : '') +
+      '<input class="field" id="hn_' + esc(x.id) + '" placeholder="Note for the record (optional)" style="margin-top:12px">' +
+      '<button class="btn ok" style="margin-top:10px" data-help="' + esc(x.id) + '">✅ Mark handled</button></div>';
+  }).join('');
+}
+
+function vWell() {
+  var goal = Number(S.data.stepGoal) || 8000;
+  return kids().map(function (k) {
+    var total = k.steps.reduce(function (a, s) { return a + s.steps; }, 0);
+    var max = Math.max(goal, Math.max.apply(null, k.steps.map(function (s) { return s.steps; }).concat([1])));
+    var h = '<div class="card"><div class="kidhead"><div class="av ' + k.first + '">' + EMO[k.first] + '</div><div><div class="kname">' + esc(k.first) + '</div><div class="ksub">Last 7 days</div></div></div>';
+    h += '<div class="tiles"><div class="tile"><div class="n">' + total.toLocaleString() + '</div><div class="l">Steps this week</div></div><div class="tile"><div class="n">' + k.readingWeek + '</div><div class="l">Reading minutes</div></div></div>';
+    h += '<div class="sec" style="margin-top:16px">Daily steps</div><div class="bars"><div class="goal" style="bottom:' + (26 + (goal / max) * 114) + 'px"><span>Goal ' + goal.toLocaleString() + '</span></div>' + k.steps.map(function (s) {
+      return '<div class="bar"><div class="v">' + (s.steps ? (s.steps >= 1000 ? (s.steps / 1000).toFixed(1) + 'k' : s.steps) : '') + '</div><div class="b' + (s.steps >= goal ? ' hit' : '') + '" style="height:' + Math.max(3, (s.steps / max) * 114) + 'px"></div><div class="d">' + esc(s.label) + '</div></div>';
+    }).join('') + '</div></div>';
+    h += '<div class="card"><div class="sec" style="margin-top:0">Latest weekly check-in' + (k.checkin && k.checkin.date ? ' · ' + esc(k.checkin.date) : '') + '</div>' + (k.checkin ? k.checkin.items.map(function (x) { return '<div class="kv"><span>' + esc(x.label) + '</span><span>' + esc(x.value) + '</span></div>'; }).join('') : '<div class="empty" style="padding:12px">No check-in yet</div>') + '</div>';
+    h += '<div class="card"><div class="sec" style="margin-top:0">Recent reading</div>' + (k.reading.length ? k.reading.map(function (r) {
+      return '<div class="item" style="cursor:default"><span style="font-size:22px">📖</span><div class="it"><div class="c">' + esc(r.book) + '</div><div class="t">' + esc([r.date, r.minutes ? r.minutes + ' min' : '', r.pages ? r.pages + ' pages' : ''].filter(Boolean).join(' · ')) + '</div>' + (r.recap ? '<div class="t" style="margin-top:4px">' + esc(r.recap) + '</div>' : '') + '</div></div>';
+    }).join('') : '<div class="empty" style="padding:12px">No reading logged yet</div>') + '</div>';
+    return h;
+  }).join('');
+}
+
+function gradeColor(p) { return p >= 90 ? 'linear-gradient(90deg,#4ade80,#16a34a)' : p >= 80 ? 'linear-gradient(90deg,#60a5fa,#2563eb)' : p >= 70 ? 'linear-gradient(90deg,#fbbf24,#d97706)' : 'linear-gradient(90deg,#f87171,#dc2626)'; }
+
+function vProg() {
+  return kids().map(function (k) {
+    var s = k.stats || {};
+    var low = k.courses.length ? k.courses[k.courses.length - 1] : null;
+    var h = '<div class="card"><div class="kidhead"><div class="av ' + k.first + '">' + EMO[k.first] + '</div><div><div class="kname">' + esc(k.first) + '</div><div class="ksub">' + esc(S.data.year) + '</div></div><div class="ring"><div class="big">' + esc(s.overall || '–') + '</div><div class="ksub">overall</div></div></div>';
+    h += '<div class="tiles"><div class="tile"><div class="n">' + esc(s.daysDone || '–') + '</div><div class="l">Days done of 180</div></div><div class="tile"><div class="n">' + esc(s.daysLeft || '–') + '</div><div class="l">Days left</div></div><div class="tile"><div class="n">' + k.doneThisWeek + '</div><div class="l">Done this week</div></div><div class="tile"><div class="n" style="color:' + (low && low.pct < 80 ? 'var(--warn)' : 'var(--ok)') + '">' + (low ? low.pct + '%' : '–') + '</div><div class="l">Lowest' + (low ? ': ' + esc(low.course) : '') + '</div></div></div>';
+    var dd = Number(s.daysDone) || 0;
+    h += '<div class="hbar" style="margin-top:16px"><div class="top"><span>School year</span><span>' + Math.round(dd / 180 * 100) + '%</span></div><div class="track"><div class="fill" style="width:' + Math.min(100, dd / 180 * 100) + '%;background:linear-gradient(90deg,#a78bfa,#6d28d9)"></div></div></div></div>';
+    h += '<div class="card"><div class="sec" style="margin-top:0">Course grades</div>' + (k.courses.length ? k.courses.map(function (c) {
+      return '<div class="hbar"><div class="top"><span>' + esc(c.course) + '</span><span>' + c.pct + '% · ' + c.letter + '</span></div><div class="track"><div class="fill" style="width:' + Math.min(100, c.pct) + '%;background:' + gradeColor(c.pct) + '"></div></div></div>';
+    }).join('') : '<div class="empty" style="padding:12px">No grades yet</div>') + '</div>';
+    h += '<div class="card"><div class="sec" style="margin-top:0">Recent grades</div>' + (k.recentGrades.length ? k.recentGrades.map(function (g) {
+      return '<div class="item" style="cursor:default"><div class="letter" style="width:44px;height:44px;font-size:22px;border-radius:14px;margin:0;background:' + (g.pct >= 80 ? 'var(--okbg)' : 'var(--warnbg)') + ';color:' + (g.pct >= 80 ? 'var(--ok)' : 'var(--warn)') + '">' + g.letter + '</div><div class="it"><div class="c">' + esc(g.course) + ' · ' + g.pct + '%</div><div class="t">' + esc(g.title) + '</div></div><div class="ksub">' + esc(g.date) + '</div></div>';
+    }).join('') : '<div class="empty" style="padding:12px">No grades yet</div>') + '</div>';
+    return h;
+  }).join('');
+}
+
+function openSheet(h) { $('sheetBody').innerHTML = h; $('sheet').classList.remove('hidden'); }
+function closeSheet() { $('sheet').classList.add('hidden'); $('sheetBody').innerHTML = ''; }
+
+document.addEventListener('click', function (e) {
+  var t = e.target.closest('button,[data-item],[data-g]');
+  if (!t) { if (e.target.id === 'sheet') closeSheet(); return; }
+  var a = function (n) { return t.getAttribute(n); };
+  if (a('data-view')) { S.view = a('data-view'); render(); return; }
+  if (a('data-kid')) { S.kid = a('data-kid'); render(); return; }
+  if (a('data-over')) { S.showOver[a('data-over')] = !S.showOver[a('data-over')]; render(); return; }
+  if (a('data-item')) { openItem(a('data-item'), a('data-kidname')); return; }
+  if (a('data-g') !== null && !t.matches('button')) { openGrade(Number(a('data-g'))); return; }
+  if (a('data-close')) { closeSheet(); return; }
+  if (a('data-do')) {
+    var d = a('data-do');
+    if (d === 'remove' && !confirm('Remove this assignment? It will be hidden from the kids.')) return;
+    act('PP_setWork', [a('data-id'), d], d === 'done' ? 'Marked done ✅' : d === 'reopen' ? 'Marked not done' : 'Removed');
+    return;
+  }
+  if (a('data-q')) { $('gE').value = a('data-q'); $('gE').dispatchEvent(new Event('input')); [].forEach.call(document.querySelectorAll('#gQ button'), function (b) { b.classList.toggle('on', b === t); }); return; }
+  if (t.id === 'gSave') { saveGrade(Number(a('data-i'))); return; }
+  if (a('data-help')) { var id = a('data-help'); var n = $('hn_' + id); act('PP_help', [id, n ? n.value : ''], 'Marked handled ✅'); return; }
+  if (a('data-who')) { t.classList.toggle('on'); fillCourses(); return; }
+  if (a('data-type')) { [].forEach.call(document.querySelectorAll('#aType button'), function (b) { b.classList.toggle('on', b === t); }); return; }
+  if (a('data-day')) { $('aDate').value = a('data-day'); [].forEach.call(document.querySelectorAll('#aDays button'), function (b) { b.classList.toggle('on', b === t); }); return; }
+  if (t.id === 'aSave') { saveAssign(); return; }
+  if (t.id === 'go') { doLogin(); return; }
+  if (t.id === 'refresh') { load(); return; }
+  if (t.id === 'out') { signOut(); return; }
+});
+document.addEventListener('change', function (e) {
+  if (e.target.id === 'aCourse') $('aCourseOther').classList.toggle('hidden', e.target.value !== '__other');
+  if (e.target.id === 'aDate') [].forEach.call(document.querySelectorAll('#aDays button'), function (b) { b.classList.toggle('on', b.getAttribute('data-day') === e.target.value); });
+});
+$('pw').addEventListener('keydown', function (e) { if (e.key === 'Enter') doLogin(); });
+document.addEventListener('visibilitychange', function () { if (!document.hidden && S.token && S.data) load(true); });
+
+(function boot() {
+  S.token = store(KEY);
+  if (!S.token) return;
+  busy(true);
+  call('PP_data', [S.token]).then(function (d) { busy(false); S.data = d; showApp(); }).catch(function () { busy(false); });
+})();
+</script>
+</body>
+</html>
