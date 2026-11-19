@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crutcher Academy · Student Portal</title>
+<script>
+(function () {
+  var API = 'https://script.google.com/macros/s/AKfycbwRT7tVfDlkOHAHWm5GJ-60mwZPJ1lRFWvduL1zn4U0lJT4lPMKn6VfU5-S0lKX-o1l/exec';
+  function runner(ok, fail) {
+    return new Proxy({}, {
+      get: function (_, name) {
+        if (name === 'withSuccessHandler') return function (f) { return runner(f, fail); };
+        if (name === 'withFailureHandler') return function (f) { return runner(ok, f); };
+        if (name === 'withUserObject') return function () { return runner(ok, fail); };
+        return function () {
+          var args = Array.prototype.slice.call(arguments);
+          fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ fn: name, args: args }) })
+            .then(function (r) { return r.json(); })
+            .then(function (d) { if (d.ok) { if (ok) ok(d.result); } else if (fail) { fail(new Error(d.error)); } })
+            .catch(function (err) { if (fail) fail(err); });
+        };
+      }
+    });
+  }
+  window.google = window.google || {};
+  window.google.script = { run: runner(null, null) };
+})();
+</script>
+
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f1fb;--card:#fff;--ink:#1f1b2e;--soft:#6b6680;--line:#e6e1f2;--brand:#6d3fd8;--brand2:#9b6bff;--ok:#16a34a;--okbg:#e8f8ee;--warn:#ea580c;--warnbg:#fff1e6;--blue:#2563eb;--bluebg:#e9f0ff;--pink:#db2777;--pinkbg:#fde8f2;--r:18px}
+*{box-sizing:border-box}
+body{margin:0;font-family:Nunito,system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit}
+.wrap{max-width:1100px;margin:0 auto;padding:16px 16px 96px}
+.hidden{display:none!important}
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;background:linear-gradient(135deg,#6d3fd8,#c084fc)}
+.lcard{background:#fff;border-radius:28px;padding:32px 24px;width:100%;max-width:440px;text-align:center;box-shadow:0 20px 60px rgba(40,10,90,.3)}
+.lcard h1{margin:0 0 4px;font-size:30px;font-weight:900}
+.lcard p{margin:0 0 22px;color:var(--soft)}
+.kids{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.kid{border:3px solid var(--line);border-radius:20px;padding:18px 8px;background:#faf8ff;cursor:pointer;font-weight:900;font-size:20px}
+.kid .em{font-size:40px;display:block;margin-bottom:4px}
+.kid.on{border-color:var(--brand);background:#f0e9ff}
+.pin{width:100%;font-size:32px;letter-spacing:14px;text-align:center;padding:14px;border:3px solid var(--line);border-radius:16px;outline:none}
+.pin:focus{border-color:var(--brand)}
+.btn{border:0;border-radius:14px;padding:13px 20px;font-weight:800;font-size:16px;cursor:pointer;background:var(--brand);color:#fff}
+.btn:active{transform:scale(.98)}
+.btn.big{width:100%;padding:16px;font-size:19px;margin-top:14px}
+.btn.ghost{background:#efeaff;color:var(--brand)}
+.btn.ok{background:var(--ok)}
+.btn.sm{padding:9px 14px;font-size:14px}
+.err{color:#dc2626;font-weight:800;min-height:22px;margin-top:10px}
+.top{background:linear-gradient(135deg,#6d3fd8,#9b6bff);color:#fff;border-radius:24px;padding:20px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.top h2{margin:0;font-size:28px;font-weight:900}
+.top .sub{opacity:.9;font-weight:700}
+.top .acts{display:flex;gap:8px}
+.top .btn{background:rgba(255,255,255,.2)}
+.nav{display:flex;gap:8px;overflow-x:auto;padding:14px 0 4px;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:0;background:#fff;border-radius:999px;padding:11px 16px;font-weight:800;color:var(--soft);cursor:pointer;box-shadow:0 1px 0 var(--line)}
+.tab.on{background:var(--ink);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:12px 0}.stats.s3{grid-template-columns:repeat(3,1fr)}.stat{min-width:0}
+.stat{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:0 2px 0 var(--line)}
+.stat .lab{font-size:13px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.5px}
+.stat .num{font-size:38px;font-weight:900;line-height:1.1;margin-top:4px}
+.stat .mini{font-size:13px;color:var(--soft);font-weight:700}
+.bar{height:10px;background:#eee9f7;border-radius:99px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:99px}
+.card{background:var(--card);border-radius:var(--r);padding:18px;margin-top:12px;box-shadow:0 2px 0 var(--line)}
+.card h3{margin:0 0 12px;font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.task{border:2px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}
+.task.done{background:var(--okbg);border-color:#bfe8cd}
+.task.late{background:var(--warnbg);border-color:#fed7aa}
+.chk{flex:0 0 44px;height:44px;border-radius:14px;border:3px solid #cfc7e6;background:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.task.done .chk{background:var(--ok);border-color:var(--ok);color:#fff}
+.task .body{flex:1;min-width:0}
+.pill{display:inline-block;font-size:12px;font-weight:900;padding:3px 10px;border-radius:99px;background:var(--bluebg);color:var(--blue);margin-right:6px}
+.pill.w{background:var(--warnbg);color:var(--warn)}
+.pill.g{background:var(--okbg);color:var(--ok)}
+.pill.p{background:var(--pinkbg);color:var(--pink)}
+.task .t{font-weight:900;font-size:17px;margin:6px 0 4px}
+.task .n{font-size:14px;color:var(--soft);white-space:pre-wrap;max-height:3.2em;overflow:hidden}
+.task .n.open{max-height:none}
+.task .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+a.go{display:inline-flex;align-items:center;gap:6px;text-decoration:none;background:var(--brand);color:#fff;border-radius:12px;padding:9px 14px;font-weight:800;font-size:14px}
+.empty{text-align:center;color:var(--soft);padding:22px;font-weight:700}
+.empty .em{font-size:44px;display:block}
+label{display:block;font-weight:800;margin:12px 0 6px}
+input[type=text],input[type=number],input[type=date],select,textarea{width:100%;padding:13px 14px;border:2px solid var(--line);border-radius:14px;background:#fcfbff;outline:none;font-size:16px}
+input:focus,select:focus,textarea:focus{border-color:var(--brand)}
+textarea{min-height:90px;resize:vertical}
+.faces{display:flex;gap:8px;flex-wrap:wrap}
+.face{flex:1;min-width:52px;border:3px solid var(--line);background:#fff;border-radius:14px;padding:10px 0;font-size:28px;cursor:pointer}
+.face.on{border-color:var(--brand);background:#f0e9ff}
+.face small{display:block;font-size:12px;font-weight:800;color:var(--soft)}
+.donebox{background:var(--okbg);border:2px solid #bfe8cd;border-radius:16px;padding:16px;font-weight:800;color:#166534;text-align:center}
+.chart{display:flex;align-items:flex-end;gap:10px;height:170px;padding-top:10px}
+.col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px}
+.col .v{font-size:12px;font-weight:800;color:var(--soft)}
+.col .b{width:100%;max-width:46px;border-radius:10px 10px 4px 4px;background:linear-gradient(180deg,var(--brand2),var(--brand));min-height:4px}
+.col .b.hit{background:linear-gradient(180deg,#4ade80,#16a34a)}
+.col .d{font-size:13px;font-weight:900}
+.list .it{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.list .it:last-child{border:0}
+.list .l{min-width:0}
+.list .l b{display:block}
+.list .l span{color:var(--soft);font-size:14px}
+.score{font-size:22px;font-weight:900;min-width:64px;text-align:right}
+.sched{width:100%;border-collapse:collapse;font-size:15px}
+.sched td{padding:10px 8px;border-bottom:1px solid var(--line)}
+.sched tr:first-child td{font-weight:900;color:var(--soft);font-size:13px;text-transform:uppercase}
+.trivia{background:linear-gradient(135deg,#fff7e6,#ffe9f3);border-radius:var(--r);padding:18px;margin-top:12px}
+.trivia .q{font-size:20px;font-weight:900;margin:6px 0 12px}
+.trivia .a{font-size:20px;font-weight:900;color:var(--ok)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:14px 22px;border-radius:14px;font-weight:800;z-index:9;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:90vw;text-align:center}
+.loading{position:fixed;inset:0;background:rgba(244,241,251,.7);display:flex;align-items:center;justify-content:center;z-index:8}
+.spin{width:54px;height:54px;border:6px solid #e0d6fb;border-top-color:var(--brand);border-radius:50%;animation:s 1s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+.cheer{font-size:15px;font-weight:800;color:var(--soft);margin-top:4px}
+.chk2{display:flex;align-items:center;gap:10px;font-weight:800;margin-top:12px}
+.chk2 input{width:24px;height:24px}
+@media(max-width:760px){.stats,.stats.s3{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.top h2{font-size:24px}.stat .num{font-size:32px}}
+</style>
+</head>
+<body>
+
+<div id="login" class="login">
+  <div class="lcard">
+    <h1>🎒 Crutcher Academy</h1>
+    <p>Tap your name and type your PIN</p>
+    <div class="kids" id="kids"></div>
+    <input id="pin" class="pin" type="password" inputmode="numeric" maxlength="6" placeholder="••••">
+    <button class="btn big" onclick="doLogin()">Let's go! 🚀</button>
+    <div class="err" id="lerr"></div>
+  </div>
+</div>
+
+<div id="app" class="wrap hidden">
+  <div class="top">
+    <div>
+      <h2 id="hello"></h2>
+      <div class="sub" id="dateline"></div>
+    </div>
+    <div class="acts">
+      <button class="btn sm" onclick="refresh()">↻ Refresh</button>
+      <button class="btn sm" onclick="logout()">Switch</button>
+    </div>
+  </div>
+  <div class="nav" id="nav"></div>
+  <div id="view"></div>
+</div>
+
+<div id="loading" class="loading hidden"><div class="spin"></div></div>
+
+<script>
+var S={student:null,pin:null,data:null,tab:'today',rating:0,energy:0,mood:0};
+var TABS=[['today','📅 Today'],['exit','🎟️ Exit Ticket'],['move','💪 Move'],['read','📖 Reading'],['help','🆘 Help'],['grades','⭐ Grades'],['cal','🗓️ Calendar'],['classes','📚 My Classes']];
+var EMO={'Faith Crutcher':'👩‍🎓','Josiah Crutcher':'👨‍🎓'};
+
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function busy(on){$('loading').classList.toggle('hidden',!on)}
+function toast(m){var t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2800)}
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}}
+function call(fn,args,ok){busy(true);var r=google.script.run.withSuccessHandler(function(d){busy(false);ok(d)}).withFailureHandler(function(e){busy(false);var m=(e&&e.message||'Something went wrong').replace(/^Error:\s*/,'');if(!S.data){$('lerr').textContent=m}else toast('⚠️ '+m)});r[fn].apply(r,args)}
+
+function boot(){
+  call('KP_students',[],function(list){
+    $('kids').innerHTML=list.map(function(k){return '<button class="kid" data-n="'+esc(k.name)+'" onclick="pick(this)"><span class="em">'+(EMO[k.name]||'🧒')+'</span>'+esc(k.first)+'</button>'}).join('');
+    var last=store('kp_student');
+    if(last){var b=document.querySelector('.kid[data-n="'+last+'"]');if(b)pick(b)}
+  });
+  $('pin').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin()});
+}
+function pick(b){document.querySelectorAll('.kid').forEach(function(x){x.classList.remove('on')});b.classList.add('on');S.student=b.getAttribute('data-n');$('pin').focus()}
+function doLogin(){
+  $('lerr').textContent='';
+  if(!S.student){$('lerr').textContent='Tap your name first.';return}
+  var p=$('pin').value.trim();if(!p){$('lerr').textContent='Type your PIN.';return}
+  call('KP_login',[S.student,p],function(d){S.pin=p;store('kp_student',S.student);load(d);$('login').classList.add('hidden');$('app').classList.remove('hidden')});
+}
+function logout(){S.pin=null;S.data=null;$('pin').value='';$('app').classList.add('hidden');$('login').classList.remove('hidden')}
+function refresh(){call('KP_refresh',[S.student,S.pin],function(d){load(d);toast('Up to date ✨')})}
+function load(d){
+  S.data=d;
+  var h=new Date().getHours();
+  $('hello').textContent=(h<12?'Good morning, ':h<17?'Good afternoon, ':'Good evening, ')+d.first+'! '+(EMO[d.student]||'');
+  $('dateline').textContent=d.todayNice+' • Grade '+d.grade+(d.year?' • '+d.year:'');
+  $('nav').innerHTML=TABS.map(function(t){return '<button class="tab'+(t[0]===S.tab?' on':'')+'" onclick="go(\''+t[0]+'\')">'+t[1]+'</button>'}).join('');
+  render();
+}
+function go(t){S.tab=t;load(S.data);window.scrollTo(0,0)}
+
+function render(){
+  var d=S.data,v=$('view');
+  var f={today:vToday,exit:vExit,move:vMove,read:vRead,help:vHelp,grades:vGrades,cal:vCal,classes:vClasses}[S.tab];
+  v.innerHTML=f(d);
+}
+
+function statRow(d){
+  var tot=d.today_work.length,dn=d.today_work.filter(function(x){return x.done}).length;
+  var pct=tot?Math.round(dn/tot*100):0;
+  var sp=Math.min(100,Math.round(d.stepsToday/d.stepGoal*100));
+  var dp=Math.min(100,Math.round(d.daysPresent/d.schoolDays*100));
+  return '<div class="stats">'+
+    '<div class="stat"><div class="lab">Today\'s work</div><div class="num">'+dn+'<span style="font-size:22px;color:var(--soft)">/'+tot+'</span></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>'+
+    '<div class="stat"><div class="lab">My average</div><div class="num">'+(d.avg==null?'—':d.avg+'%')+'</div><div class="mini">'+(d.gradeCount||0)+' graded</div></div>'+
+    '<div class="stat"><div class="lab">Steps today</div><div class="num">'+Number(d.stepsToday).toLocaleString()+'</div><div class="bar"><i style="width:'+sp+'%"></i></div></div>'+
+    '<div class="stat"><div class="lab">School days</div><div class="num">'+d.daysPresent+'<span style="font-size:22px;color:var(--soft)">/'+d.schoolDays+'</span></div><div class="bar"><i style="width:'+dp+'%"></i></div></div>'+
+  '</div>';
+}
+
+function taskHtml(x,late){
+  var cls='task'+(x.done?' done':'')+(late?' late':'');
+  var link=x.link&&/^https?:/i.test(x.link)?'<a class="go" href="'+esc(x.link)+'" target="_blank" rel="noopener">Open lesson ↗</a>':(x.link?'<span class="pill">'+esc(x.link)+'</span>':'');
+  var nid='n_'+String(x.id).replace(/\W/g,'');
+  return '<div class="'+cls+'"><button class="chk" title="'+(x.done?'Undo':'Mark done')+'" onclick="markDone(\''+esc(x.id)+'\','+(x.done?'true':'false')+')">'+(x.done?'✓':'')+'</button>'+
+    '<div class="body"><span class="pill">'+esc(x.course)+'</span>'+(late?'<span class="pill w">From '+esc(x.date)+'</span>':'')+(x.done?'<span class="pill g">Done 🎉</span>':'')+
+    '<div class="t">'+esc(x.lesson)+'</div>'+
+    (x.notes?'<div class="n" id="'+nid+'" onclick="this.classList.toggle(\'open\')">'+esc(x.notes)+'</div>':'')+
+    '<div class="row">'+link+(x.notes?'<button class="btn ghost sm" onclick="$(\''+nid+'\').classList.toggle(\'open\')">How to</button>':'')+'<button class="btn ghost sm" onclick="helpFor(\''+esc(x.id)+'\')">I need help</button></div>'+
+    '</div></div>';
+}
+
+function vToday(d){
+  var tot=d.today_work.length,dn=d.today_work.filter(function(x){return x.done}).length;
+  var cheer=!tot?'':dn===tot?'All done today — amazing work! 🌟':dn===0?'You\'ve got this. Start with the first one! 💪':'Keep going — '+(tot-dn)+' left! 🔥';
+  var h=statRow(d);
+  h+='<div class="card"><h3>📅 Today\'s Assignments</h3>'+(cheer?'<div class="cheer" style="margin:-6px 0 12px">'+cheer+'</div>':'')+
+    (tot?d.today_work.map(function(x){return taskHtml(x,false)}).join(''):'<div class="empty"><span class="em">🎈</span>No assignments posted for today.</div>')+'</div>';
+  if(d.late_work.length)h+='<div class="card"><h3>⏰ Still to finish</h3>'+d.late_work.map(function(x){return taskHtml(x,true)}).join('')+'</div>';
+  h+='<div class="grid2">';
+  h+='<div class="card"><h3>✅ Before you finish</h3>'+
+    chkLine(d.exitDone,'Exit ticket','exit')+chkLine(d.stepsToday>0,'Log my steps','move')+chkLine(d.checkInDone,'Weekly check-in','move')+'</div>';
+  h+=d.trivia?'<div class="trivia"><span class="pill p">🧠 Trivia • '+esc(d.trivia.category)+'</span><div class="q">'+esc(d.trivia.q)+'</div><div id="ans" class="hidden a">'+esc(d.trivia.a)+'</div><button class="btn sm" id="ansb" onclick="$(\'ans\').classList.remove(\'hidden\');this.remove()">Show answer</button></div>':'<div></div>';
+  h+='</div>';
+  if(d.next_work.length)h+='<div class="card"><h3>🔭 Coming up this week</h3><div class="list">'+d.next_work.slice(0,10).map(function(x){return '<div class="it"><div class="l"><b>'+esc(x.lesson)+'</b><span>'+esc(x.course)+'</span></div><span class="pill">'+esc(x.date)+'</span></div>'}).join('')+'</div></div>';
+  if(d.schedule.length)h+='<div class="card"><h3>🕘 Class Schedule</h3><div style="overflow-x:auto"><table class="sched">'+d.schedule.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+esc(c)+'</td>'}).join('')+'</tr>'}).join('')+'</table></div></div>';
+  return h;
+}
+function chkLine(ok,label,tab){return '<div class="it" style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)"><b>'+(ok?'✅ ':'⬜ ')+label+'</b>'+(ok?'<span class="pill g">Done</span>':'<button class="btn sm" onclick="go(\''+tab+'\')">Do it</button>')+'</div>'}
+
+function faces(name,cur,set){
+  return '<div class="faces">'+set.map(function(f,i){var n=i+1;return '<button type="button" class="face'+(cur===n?' on':'')+'" onclick="setFace(\''+name+'\','+n+',this)">'+f[0]+'<small>'+f[1]+'</small></button>'}).join('')+'</div>';
+}
+function setFace(name,n,el){S[name]=n;el.parentNode.querySelectorAll('.face').forEach(function(b){b.classList.remove('on')});el.classList.add('on')}
+var F5=[['😣','Rough'],['😕','Meh'],['🙂','OK'],['😀','Good'],['🤩','Awesome']];
+
+function vExit(d){
+  if(d.exitDone)return '<div class="card"><h3>🎟️ Exit Ticket</h3><div class="donebox">You already turned in today\'s exit ticket. Great job! 🎉<br>See you tomorrow.</div></div>';
+  return '<div class="card"><h3>🎟️ Today\'s Exit Ticket</h3>'+
+    '<label>💡 One thing I learned today</label><textarea id="x_l" placeholder="Today I learned..."></textarea>'+
+    '<label>🤔 Something hard or confusing</label><textarea id="x_h" placeholder="I got stuck on... (or type nothing was hard)"></textarea>'+
+    '<label>How did today go?</label>'+faces('rating',S.rating,F5)+
+    '<button class="btn big" onclick="sendExit()">Turn in my exit ticket ✅</button></div>';
+}
+function sendExit(){
+  var f={learned:$('x_l').value,hard:$('x_h').value,rating:S.rating};
+  if(!f.rating){toast('Tap a face to show how today went');return}
+  call('KP_exitTicket',[S.student,S.pin,f],function(d){S.rating=0;load(d);toast('Exit ticket turned in! 🎉')});
+}
+
+function vMove(d){
+  var max=Math.max(d.stepGoal,Math.max.apply(null,d.stepDays.map(function(x){return x.steps}).concat([1])));
+  var h='<div class="stats s3">'+
+    '<div class="stat"><div class="lab">Today</div><div class="num">'+Number(d.stepsToday).toLocaleString()+'</div><div class="mini">Goal '+d.stepGoal.toLocaleString()+'</div></div>'+
+    '<div class="stat"><div class="lab">Last 7 days</div><div class="num">'+Number(d.stepsWeek).toLocaleString()+'</div></div>'+
+    '<div class="stat"><div class="lab">Daily average</div><div class="num">'+Math.round(d.stepsWeek/7).toLocaleString()+'</div></div></div>';
+  h+='<div class="card"><h3>🚶 My Steps This Week</h3><div class="chart">'+d.stepDays.map(function(x){var p=Math.round(x.steps/max*100);return '<div class="col"><div class="v">'+(x.steps?Number(x.steps).toLocaleString():'')+'</div><div class="b'+(x.steps>=d.stepGoal?' hit':'')+'" style="height:'+p+'%"></div><div class="d">'+x.label+'</div></div>'}).join('')+'</div></div>';
+  h+='<div class="grid2"><div class="card"><h3>➕ Log Steps</h3>'+
+    '<label>Date</label><input type="date" id="s_d" value="'+d.today+'">'+
+    '<label>How many steps?</label><input type="number" id="s_n" inputmode="numeric" placeholder="8000">'+
+    '<label>What did you do to move? (optional)</label><input type="text" id="s_m" placeholder="Walk, PE workout, practice...">'+
+    '<button class="btn big" onclick="sendSteps()">Save my steps 👟</button></div>';
+  if(d.checkInDone)h+='<div class="card"><h3>💪 Weekly Check-In</h3><div class="donebox">This week\'s check-in is done! 🙌</div></div></div>';
+  else h+='<div class="card"><h3>💪 Weekly Check-In</h3>'+
+    '<div class="grid2"><div><label>Weight (lbs)</label><input type="number" id="c_w"></div><div><label>Water a day (glasses)</label><input type="number" id="c_wa"></div>'+
+    '<div><label>Sleep a night (hours)</label><input type="number" id="c_s" step="0.5"></div><div><label>Fruits & veggies a day</label><input type="number" id="c_v"></div></div>'+
+    '<label>Active minutes this week</label><input type="number" id="c_a">'+
+    '<label>My energy</label>'+faces('energy',S.energy,[['🪫','Low'],['😴','Tired'],['🙂','OK'],['⚡','Good'],['🚀','Great']])+
+    '<label>My mood</label>'+faces('mood',S.mood,F5)+
+    '<label>One win this week 🏆</label><input type="text" id="c_win">'+
+    '<label>Something that was hard</label><input type="text" id="c_h">'+
+    '<label>My goal for next week 🎯</label><input type="text" id="c_g">'+
+    '<button class="btn big" onclick="sendCheck()">Send my check-in ✅</button></div></div>';
+  return h;
+}
+function sendSteps(){call('KP_logSteps',[S.student,S.pin,{date:$('s_d').value,steps:$('s_n').value,move:$('s_m').value}],function(d){load(d);toast('Steps saved! 👟')})}
+function sendCheck(){
+  var f={weight:$('c_w').value,water:$('c_wa').value,sleep:$('c_s').value,veg:$('c_v').value,active:$('c_a').value,energy:S.energy,mood:S.mood,win:$('c_win').value,hard:$('c_h').value,goal:$('c_g').value};
+  if(!f.energy||!f.mood){toast('Tap your energy and mood');return}
+  call('KP_checkIn',[S.student,S.pin,f],function(d){S.energy=0;S.mood=0;load(d);toast('Check-in sent! 💪')});
+}
+
+function vRead(d){
+  var h='<div class="card"><h3>📖 Log My Reading</h3>'+
+    '<div class="grid2"><div><label>Book title</label><input type="text" id="r_b"></div><div><label>Author</label><input type="text" id="r_a"></div>'+
+    '<div><label>Date</label><input type="date" id="r_d" value="'+d.today+'"></div><div><label>Minutes read</label><input type="number" id="r_m"></div>'+
+    '<div><label>Starting page</label><input type="number" id="r_s"></div><div><label>Ending page</label><input type="number" id="r_e"></div></div>'+
+    '<label>Reading recap (3–5 sentences)</label><textarea id="r_r"></textarea>'+
+    '<label>Most interesting thing I learned</label><input type="text" id="r_i">'+
+    '<label class="chk2"><input type="checkbox" id="r_f"> I finished the book! 🏁</label>'+
+    '<button class="btn big" onclick="sendRead()">Save my reading 📚</button></div>';
+  h+='<div class="card"><h3>🕮 My Recent Reading</h3>'+(d.reading.length?'<div class="list">'+d.reading.map(function(r){return '<div class="it"><div class="l"><b>'+esc(r.book)+'</b><span>'+esc(r.author)+' • '+esc(r.date)+'</span></div><span class="pill">'+(r.minutes?esc(r.minutes)+' min':'')+(r.pages?' • '+esc(r.pages)+' pg':'')+'</span></div>'}).join('')+'</div>':'<div class="empty"><span class="em">📚</span>No reading logged yet.</div>')+'</div>';
+  return h;
+}
+function sendRead(){
+  var f={book:$('r_b').value,author:$('r_a').value,date:$('r_d').value,minutes:$('r_m').value,start:$('r_s').value,end:$('r_e').value,recap:$('r_r').value,interesting:$('r_i').value,finished:$('r_f').checked};
+  call('KP_logReading',[S.student,S.pin,f],function(d){load(d);toast('Reading saved! 📚')});
+}
+
+function vHelp(d){
+  var pre=S.helpPre||{};
+  var opts=d.courses.map(function(c){return '<option'+(pre.course===c.course?' selected':'')+'>'+esc(c.course)+'</option>'}).join('');
+  var h='<div class="card"><h3>🆘 Ask Mom for Help</h3>'+
+    '<label>Which class?</label><select id="h_c"><option value="">Pick one</option>'+opts+'<option>Other</option></select>'+
+    '<label>Lesson or assignment</label><input type="text" id="h_l" value="'+esc(pre.lesson||'')+'">'+
+    '<label>What do you need help with?</label><textarea id="h_n"></textarea>'+
+    '<label>What did you already try?</label><textarea id="h_t" style="min-height:70px"></textarea>'+
+    '<label>How stuck are you?</label><select id="h_u"><option>I can keep going for now</option><option>Need help today</option><option>Stuck / Cannot Continue</option></select>'+
+    '<button class="btn big" onclick="sendHelp()">Send to Mom 📨</button></div>';
+  h+='<div class="card"><h3>📬 My Help Requests</h3>'+(d.help.length?'<div class="list">'+d.help.map(function(x){return '<div class="it"><div class="l"><b>'+esc(x.course)+(x.lesson?' — '+esc(x.lesson):'')+'</b>'+(x.notes?'<span>Mom: '+esc(x.notes)+'</span>':'')+'</div><span class="pill'+(/Resolved/.test(x.status)?' g':' w')+'">'+esc(x.status||'Sent')+'</span></div>'}).join('')+'</div>':'<div class="empty">No help requests yet.</div>')+'</div>';
+  return h;
+}
+function helpFor(id){
+  var all=S.data.today_work.concat(S.data.late_work);var x=all.find(function(a){return String(a.id)===String(id)});
+  S.helpPre=x?{course:x.course,lesson:x.lesson,id:x.id}:{};go('help');
+}
+function sendHelp(){
+  var f={course:$('h_c').value,lesson:$('h_l').value,need:$('h_n').value,tried:$('h_t').value,urgency:$('h_u').value,assignmentId:(S.helpPre&&S.helpPre.id)||''};
+  call('KP_askHelp',[S.student,S.pin,f],function(d){S.helpPre=null;load(d);toast('Sent to Mom! She\'ll check in with you. 💜')});
+}
+
+function vGrades(d){
+  var col=function(p){return p==null?'var(--soft)':p>=90?'var(--ok)':p>=80?'var(--blue)':p>=70?'var(--warn)':'#dc2626'};
+  var h='<div class="stats" style="grid-template-columns:repeat(2,1fr)"><div class="stat"><div class="lab">My average</div><div class="num" style="color:'+col(d.avg)+'">'+(d.avg==null?'—':d.avg+'%')+'</div></div><div class="stat"><div class="lab">Graded assignments</div><div class="num">'+(d.gradeCount||0)+'</div></div></div>';
+  h+='<div class="card"><h3>⭐ Recent Grades</h3>'+(d.grades.length?'<div class="list">'+d.grades.map(function(g){return '<div class="it"><div class="l"><b>'+esc(g.name)+'</b><span>'+esc(g.course)+(g.feedback?' • 💬 '+esc(g.feedback):'')+'</span></div><div class="score" style="color:'+col(g.pct)+'">'+(g.pct==null?'':g.pct+'%')+' <span style="font-size:15px">'+esc(g.letter||'')+'</span></div></div>'}).join('')+'</div>':'<div class="empty"><span class="em">⭐</span>No grades yet.</div>')+'</div>';
+  return h;
+}
+
+function vCal(d){
+  return '<div class="card"><h3>🗓️ My Upcoming Events</h3>'+(d.events.length?'<div class="list">'+d.events.map(function(e){return '<div class="it"><div class="l"><b>'+esc(e.name)+'</b><span>'+esc(e.who)+(e.where?' • 📍 '+esc(e.where):'')+(e.repeats?' • 🔁 '+esc(e.repeats):'')+'</span></div><span class="pill">'+esc(e.date)+(e.time?' • '+esc(e.time):'')+'</span></div>'}).join('')+'</div>':'<div class="empty"><span class="em">🗓️</span>Nothing on the calendar for the next 30 days.</div>')+'</div>';
+}
+
+function vClasses(d){
+  return '<div class="card"><h3>📚 My Classes</h3>'+(d.courses.length?'<div class="list">'+d.courses.map(function(c){return '<div class="it"><div class="l"><b>'+esc(c.course)+'</b><span>'+esc(c.provider)+'</span></div>'+(c.link&&/^https?:/i.test(c.link)?'<a class="go" href="'+esc(c.link)+'" target="_blank" rel="noopener">Open ↗</a>':'')+'</div>'}).join('')+'</div>':'<div class="empty">No classes listed.</div>')+'</div>';
+}
+
+function markDone(id,undo){
+  call('KP_markDone',[S.student,S.pin,id,undo],function(d){load(d);toast(undo?'Moved back to not started':'Nice work! ✅ Marked done')});
+}
+
+boot();
+</script>
+</body>
+</html>
